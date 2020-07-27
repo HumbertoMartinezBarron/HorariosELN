@@ -77,6 +77,62 @@ public class HelperFunctions {
         catch(IOException e){System.out.println("No generados");}
     }
     
+    public static void generaCursos(String file)
+    {
+        try
+        {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line = br.readLine();
+            String[] data;
+            while(line!=null)
+            {
+                data = line.split(",");
+                cursos.add(new Curso(data[0],data[1],data[2]));
+                line = br.readLine();
+            }
+        }
+        catch(IOException e){System.out.println("No generados");}
+    }
+    
+    public static int[] countLines(String file) {
+        int[] y = new int[2];y[0]=0;y[1]=0;
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line = br.readLine();
+            while(line!=null) {
+                y[0]++;
+                y[1] = line.split(",").length/2;
+                line = br.readLine();
+            }
+        }catch(IOException e){}
+        return y;
+    }
+    
+    public static void leeBloques(String file)
+    {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line = br.readLine();
+            int[] pq = countLines(file);
+            String[] data;
+            String[][][] blocks=new String[pq[0]][pq[1]][2];
+            int c = 0;
+            while(line!=null)
+            {
+                data = line.split(",");
+                for(int i=0;i<data.length/2;i++)
+                {
+                    blocks[c][i][0] = data[i*2];
+                    blocks[c][i][1] = data[i*2+1];
+                }
+                c++;
+                line = br.readLine();
+            }
+            bloques=blocks;
+        }
+        catch(IOException e){System.out.println("No generados");}
+    }
+    
     public static double convertToComparableTime(String time)
     {
         String[] sep = time.split(":");
@@ -113,17 +169,50 @@ public class HelperFunctions {
         }
         return block;
     }
+    public static void writeCSV(String[] data, String day)
+    {
+        try(PrintWriter writer = new PrintWriter(new File(day+"Results.csv")))
+        {
+            StringBuilder sb = new StringBuilder();
+            for(int i=0;i<data.length;i++)
+            {
+                sb.append("Bloque ");
+                sb.append(i+1);
+                sb.append(":\n");
+                sb.append(data[i]);
+                sb.append("\n");
+            }
+            writer.write(sb.toString());
+            System.out.println("Wrote "+day+" CSV file.");
+        }
+        catch(FileNotFoundException e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
     
     public static void agregaProhibido(String file, ArrayList<Curso> cursos) 
     {
         try
         {
-            BufferedReader br = new BufferedReader(new FileReader("/Users/Humberto/Downloads/"+file));
-            String line = br.readLine();
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line = br.readLine(); int h = 0;
             String[] data;
             while(line!=null)
             {
                 data = line.split(",");
+                if(h==0) 
+                {
+                    String[][] disponibilidades = new String[data.length-1][2];
+                    String[] temp;
+                    for(int l=1;l<data.length;l++)
+                    {
+                        temp = data[l].split(" a ");
+                        disponibilidades[l-1][0] = temp[0];
+                        disponibilidades[l-1][1] = temp[1];
+                    }
+                    availabilities = disponibilidades;
+                }
                 ArrayList<Integer> bin = new ArrayList();
                 for(int i=1; i<data.length; i++)
                     if(data[i].equals("0"))
@@ -141,9 +230,10 @@ public class HelperFunctions {
                     }
                 }
                 line = br.readLine();
+                h++;
             }
         }
-        catch(Exception e){System.out.println("No generados.\n"+e.toString());}
+        catch(IOException e){System.out.println("No generados.\n"+e.toString());}
     }
     
     public static ArrayList<Curso> selectCourses(String[] names, int param)
@@ -224,6 +314,8 @@ public class HelperFunctions {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        String path="/Users/Humberto/Downloads/";
+        leeBloques(path+"Blocks.csv");
         int[][]costs=new int[bloques.length][bloques[0].length];
         ArrayList[][][] matrix = intersectBlocks(bloques, costs);
         String s="Matriz de costos para secciones y bloques:\n";
@@ -237,7 +329,7 @@ public class HelperFunctions {
         generaCursos();
         
         // Lunes
-        agregaProhibido("MondayAvailability.csv", cursos);
+        agregaProhibido(path+"MondayAvailability.csv", cursos);
         String []clasesLunes = {"Quimica1", "Matematicas1", "Fisica1", "Matematicas3",
                                 "CalculoDiferencial", "Informatica1", "DesarrolloHumano1",
                                 "Geografia", "Biologia1", "TemasSelectosDeFisica1", 

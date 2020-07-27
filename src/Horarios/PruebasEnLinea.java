@@ -22,7 +22,7 @@ public class PruebasEnLinea {
         int[][] costs = new int[bloques.length][bloques[0].length];
         ArrayList[][][] matrix = HelperFunctions.intersectBlocks(bloques, costs);
         String[]grupo=new String[1],grupos=new String[2],clase=new String[1],prof=new String[1];
-        int[] params=new int[2];
+        int[] params=new int[2];String path="/Users/Humberto/Downloads/";
         
         // Lunes
         System.out.println("Lunes");
@@ -44,7 +44,7 @@ public class PruebasEnLinea {
         cursosLunes.add(new Curso("IDIOMAS-2", "Profe de Idiomas 2-3","3C"));
         cursosLunes.add(new Curso("IDIOMAS-2", "Profe de Idiomas 3-1","5A"));
         cursosLunes.add(new Curso("IDIOMAS-2", "Profe de Idiomas 3-2","5B"));
-        HelperFunctions.agregaProhibido("MondayAvailability.csv", cursosLunes);
+        HelperFunctions.agregaProhibido(path+"MondayAvailability.csv", cursosLunes);
         System.out.println("Cursos a asignar: "+cursosLunes.size());
         HazHorarios lunes = new HazHorarios(cursosLunes, 3, bloques.length, true, matrix, costs, bloques);
         lunes.hazRelaciones();
@@ -64,7 +64,7 @@ public class PruebasEnLinea {
                                 "Etica1", "DesarrolloDeInversores3", "LeguajeFinanciero1yTLR1",
                                 "CienciasDeLaSalud1", "LenguajeFinanciero5", "MetodologiaDeLaInvestigacion"};
         ArrayList<Curso> cursosMartes = HelperFunctions.selectCourses(clasesMartes,gruposEnLinea,params);
-        HelperFunctions.agregaProhibido("TuesdayAvailability.csv", cursosMartes);
+        HelperFunctions.agregaProhibido(path+"TuesdayAvailability.csv", cursosMartes);
         System.out.println("Cursos a asignar: "+cursosMartes.size());
         HazHorarios martes = new HazHorarios(cursosMartes, 3, bloques.length, true, matrix, costs, bloques);
         martes.hazRelaciones();
@@ -94,7 +94,7 @@ public class PruebasEnLinea {
         //clase[0]="Etica1";grupo[0]="1A";
         //cursosMiercoles.addAll(HelperFunctions.selectCourses(clase, grupo, params));
         //clase[0]="MarcoNormativoDeMexico";grupos[0]="5B";grupos[1]="5A";
-        HelperFunctions.agregaProhibido("WednesdayAvailability.csv", cursosMiercoles);
+        HelperFunctions.agregaProhibido(path+"WednesdayAvailability.csv", cursosMiercoles);
         System.out.println("Cursos a asignar: "+cursosMiercoles.size());
         HazHorarios miercoles = new HazHorarios(cursosMiercoles, 3, bloques.length, true, matrix, costs, bloques);
         miercoles.hazRelaciones();
@@ -122,7 +122,7 @@ public class PruebasEnLinea {
         cursosJueves.addAll(HelperFunctions.selectCourses(clase, grupos, params));
         clase[0]="DesarrolloDeInversores5";grupos[0]="5C";grupos[1]="5A";
         cursosJueves.addAll(HelperFunctions.selectCourses(clase, grupos, params));
-        HelperFunctions.agregaProhibido("ThursdayAvailability.csv", cursosJueves);
+        HelperFunctions.agregaProhibido(path+"ThursdayAvailability.csv", cursosJueves);
         System.out.println("Cursos a asignar: "+cursosJueves.size());
         HazHorarios jueves = new HazHorarios(cursosJueves, 3, bloques.length, true, matrix, costs, bloques);
         jueves.hazRelaciones();
@@ -141,7 +141,7 @@ public class PruebasEnLinea {
         cursosViernes.addAll(HelperFunctions.selectCourses(clase, prof, params));
         clase[0]="MetodologiaDeLaInvestigacion";grupos[0]="1B";grupos[1]="1C";params[1]=2;
         cursosViernes.addAll(HelperFunctions.selectCourses(clase, grupo, params));
-        HelperFunctions.agregaProhibido("FridayAvailability.csv", cursosViernes);
+        HelperFunctions.agregaProhibido(path+"FridayAvailability.csv", cursosViernes);
         System.out.println("Cursos a asignar: "+cursosViernes.size());
         HazHorarios viernes = new HazHorarios(cursosViernes, 3, bloques.length, true, matrix, costs, bloques);
         viernes.hazRelaciones();
