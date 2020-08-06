@@ -38,6 +38,8 @@ public class Interfaz extends javax.swing.JFrame {
         blocksFileAddress = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         roomsPerBlock = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        outputFileName = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,6 +57,8 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel3.setText("Direccion completa del archivo de bloques");
 
         jLabel4.setText("Salones disponibles para cada bloque");
+
+        jLabel5.setText("Nombre del archivo resultante");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -74,9 +78,11 @@ public class Interfaz extends javax.swing.JFrame {
                     .addComponent(availabilitiesFileAddress)
                     .addComponent(blocksFileAddress, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(roomsPerBlock, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(roomsPerBlock, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(outputFileName))
                 .addGap(106, 106, 106))
         );
         layout.setVerticalGroup(
@@ -91,9 +97,13 @@ public class Interfaz extends javax.swing.JFrame {
                     .addComponent(coursesFileAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(roomsPerBlock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
-                .addComponent(jLabel3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(blocksFileAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(blocksFileAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(outputFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -111,6 +121,7 @@ public class Interfaz extends javax.swing.JFrame {
         String coursesFile = coursesFileAddress.getText();
         String blocksFile = blocksFileAddress.getText();
         String availabilitiesFile = availabilitiesFileAddress.getText();
+        String outputFile = outputFileName.getText();
         int salones = Integer.parseInt(roomsPerBlock.getText());
         HelperFunctions.generaCursos(coursesFile);
         HelperFunctions.leeBloques(blocksFile);
@@ -123,7 +134,7 @@ public class Interfaz extends javax.swing.JFrame {
         horarios.hazRelaciones();
         horarios.resuelve();
         String[] y = horarios.imprime();
-        HelperFunctions.writeCSV(y, "");
+        HelperFunctions.writeCSV(y, outputFile);
     }//GEN-LAST:event_generateActionPerformed
 
     /**
@@ -170,6 +181,8 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JTextField outputFileName;
     private javax.swing.JTextField roomsPerBlock;
     // End of variables declaration//GEN-END:variables
 }
